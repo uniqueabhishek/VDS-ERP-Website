@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 export default function LoginPage() {
@@ -17,7 +18,7 @@ export default function LoginPage() {
         <div className="relative z-10 text-white max-w-lg">
            <h1 className="text-5xl font-bold mb-6 leading-tight">Vedic Dharma Sansthan ERP</h1>
            <p className="text-lg text-slate-300 leading-relaxed italic">
-             "Seva (service) isn't just physical action but a way to dissolve the ego and connect with the Divine"
+             &quot;Seva (service) isn&apos;t just physical action but a way to dissolve the ego and connect with the Divine&quot;
            </p>
         </div>
       </div>
@@ -79,17 +80,17 @@ export default function LoginPage() {
 
             <div className="grid grid-cols-2 gap-4 mt-6">
                 <button className="flex items-center justify-center gap-2 px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors bg-white dark:bg-card-dark">
-                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5" alt="Google" />
+                    <Image src="https://www.svgrepo.com/show/475656/google-color.svg" width={20} height={20} className="w-5 h-5" alt="Google" />
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Google</span>
                 </button>
                  <button className="flex items-center justify-center gap-2 px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors bg-white dark:bg-card-dark">
-                    <img src="https://www.svgrepo.com/show/448234/microsoft.svg" className="w-5 h-5" alt="Microsoft" />
+                    <Image src="https://www.svgrepo.com/show/448234/microsoft.svg" width={20} height={20} className="w-5 h-5" alt="Microsoft" />
                     <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Microsoft</span>
                 </button>
             </div>
 
              <p className="text-center text-sm text-slate-500 dark:text-slate-400 mt-8">
-                Don't have an account? <a href="#" className="font-bold text-primary hover:text-primary/80">Contact Admin</a>
+                Don&apos;t have an account? <a href="#" className="font-bold text-primary hover:text-primary/80">Contact Admin</a>
             </p>
         </div>
       </div>
