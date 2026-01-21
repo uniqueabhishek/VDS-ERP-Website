@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import heroBg from '../../sri_sri_ravi_shankar_official_picture.jpg';
+
 
 export default function LoginPage() {
   return (
@@ -8,8 +8,9 @@ export default function LoginPage() {
 
       {/* Desktop Left Side - Hero/Branding */}
       <div className="hidden lg:flex lg:w-1/2 relative bg-[#0f1323] flex-col justify-end pb-24 px-16 overflow-hidden">
+
         {/* Background Pattern/Image */}
-        <div className="absolute inset-0" style={{ backgroundImage: `url(${heroBg.src})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+        <div className="absolute inset-0" style={{ backgroundImage: "url('/images/sri_sri_ravi_shankar_official_picture.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
         {/* Dark Gradient Overlay for Text Readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
 
