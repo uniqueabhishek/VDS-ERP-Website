@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/app/components/ui/Toast';
 import VendorForm from '@/app/components/accountant/VendorForm';
 
@@ -23,11 +23,7 @@ export default function VendorsPage() {
   const [editingVendor, setEditingVendor] = useState<Vendor | null>(null);
   const { addToast } = useToast();
 
-  useEffect(() => {
-    fetchVendors();
-  }, []);
-
-  const fetchVendors = async () => {
+  const fetchVendors = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/vendors');
@@ -40,7 +36,11 @@ export default function VendorsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [addToast]);
+
+  useEffect(() => {
+    fetchVendors();
+  }, [fetchVendors]);
 
   const handleAdd = () => {
     setEditingVendor(null);
@@ -200,7 +200,7 @@ export default function VendorsPage() {
             <div className="p-8 text-center text-gray-500 dark:text-gray-400">
               <span className="material-symbols-outlined text-6xl text-gray-300 dark:text-gray-600">group</span>
               <p className="mt-4 text-lg font-medium">No vendors found</p>
-              <p className="mt-1 text-sm">Click "Add Vendor" to create your first vendor</p>
+              <p className="mt-1 text-sm">Click &quot;Add Vendor&quot; to create your first vendor</p>
             </div>
           )}
         </div>

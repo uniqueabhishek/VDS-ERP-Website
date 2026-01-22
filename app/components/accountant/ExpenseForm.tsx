@@ -1,6 +1,14 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
+
+interface Vendor {
+  id: string;
+  name: string;
+  phone?: string;
+  gstNumber?: string;
+}
 
 interface ExpenseFormData {
   expenseType: string;
@@ -17,6 +25,11 @@ interface ExpenseFormProps {
   onCancel?: () => void;
 }
 
+interface ExpenseType {
+  id: string;
+  name: string;
+}
+
 export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
   const [formData, setFormData] = useState<ExpenseFormData>({
     expenseType: '',
@@ -28,11 +41,37 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
     billNumber: '',
   });
 
+  const [vendors, setVendors] = useState<Vendor[]>([]);
+  const [expenseTypes, setExpenseTypes] = useState<ExpenseType[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const [errors, setErrors] = useState<Partial<Record<keyof ExpenseFormData, string>>>({});
   const [file, setFile] = useState<File | null>(null);
   const [filePreview, setFilePreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              // Fetch Vendors
+              const vendorsRes = await fetch('/api/vendors');
+              if (vendorsRes.ok) {
+                  const data = await vendorsRes.json();
+                  setVendors(data);
+              }
+
+              // Fetch Expense Types
+              const typesRes = await fetch('/api/expense-types');
+              if (typesRes.ok) {
+                  const data = await typesRes.json();
+                  setExpenseTypes(data);
+              }
+          } catch (error) {
+              console.error('Failed to fetch data', error);
+          }
+      };
+      fetchData();
+  }, []);
 
   const handleInputChange = (field: keyof ExpenseFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -146,11 +185,11 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
                         className={`select-chevron form-input w-full rounded-lg text-[#141515] dark:text-white focus:ring-2 focus:ring-primary/20 border ${errors.expenseType ? 'border-red-500' : 'border-[#dfe2e1] dark:border-white/10'} bg-white dark:bg-transparent h-12 md:h-14 p-[15px] text-sm md:text-base font-medium transition-colors hover:border-gray-400 dark:hover:border-white/20`}
                       >
                         <option value="" className="text-gray-900 dark:text-white dark:bg-zinc-800">Select Category</option>
-                        <option value="light" className="text-gray-900 dark:text-white dark:bg-zinc-800">Light Bill</option>
-                        <option value="pani" className="text-gray-900 dark:text-white dark:bg-zinc-800">Pani Bill</option>
-                        <option value="wages" className="text-gray-900 dark:text-white dark:bg-zinc-800">Wages</option>
-                        <option value="maintenance" className="text-gray-900 dark:text-white dark:bg-zinc-800">Maintenance</option>
-                        <option value="travel" className="text-gray-900 dark:text-white dark:bg-zinc-800">Travel Expense</option>
+                        {expenseTypes.map((type) => (
+                           <option key={type.id} value={type.name} className="text-gray-900 dark:text-white dark:bg-zinc-800">
+                             {type.name}
+                           </option>
+                        ))}
                       </select>
                       {errors.expenseType && <p className="text-red-500 text-xs mt-1">{errors.expenseType}</p>}
                   </label>
@@ -217,16 +256,57 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
                   <h3 className="text-sm font-bold text-[#141515] dark:text-white/80 uppercase tracking-wider">Vendor & Payment</h3>
                   </div>
                   <div className="bg-white dark:bg-white/5 p-5 md:p-6 rounded-xl ios-shadow border border-[#dfe2e1] dark:border-white/10 space-y-4 shadow-sm transition-all hover:shadow-md">
-                  <label className="flex flex-col group">
+                  <label className="flex flex-col group relative">
                       <p className="text-[#141515] dark:text-white/70 text-sm font-semibold pb-2 group-focus-within:text-primary transition-colors">
                         Vendor / Payee <span className="text-red-500">*</span>
                       </p>
                       <input
                         value={formData.vendor}
-                        onChange={(e) => handleInputChange('vendor', e.target.value)}
+                        onChange={(e) => {
+                            handleInputChange('vendor', e.target.value);
+                            setShowSuggestions(true);
+                        }}
+                        onFocus={() => setShowSuggestions(true)}
+                        onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
                         className={`form-input w-full rounded-lg text-[#141515] dark:text-white focus:ring-2 focus:ring-primary/20 border ${errors.vendor ? 'border-red-500' : 'border-[#dfe2e1] dark:border-white/10'} bg-white dark:bg-transparent h-12 md:h-14 p-[15px] text-sm md:text-base font-medium transition-colors hover:border-gray-400 dark:hover:border-white/20`}
-                        placeholder="Enter name"
+                        placeholder="Search or enter name"
+                        autoComplete="off"
                       />
+                      {/* Vendor Suggestions Dropdown */}
+                      {showSuggestions && (
+                          <div className="absolute top-[calc(100%+4px)] left-0 right-0 z-50 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl max-h-60 overflow-y-auto">
+                              {vendors.length > 0 ? (
+                                  vendors
+                                    .filter(v => v.name.toLowerCase().includes(formData.vendor.toLowerCase()))
+                                    .slice(0, 100) // Limit results
+                                    .map((vendor) => (
+                                      <div
+                                          key={vendor.id}
+                                          onMouseDown={() => {
+                                              handleInputChange('vendor', vendor.name);
+                                              setShowSuggestions(false);
+                                          }}
+                                          className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer border-b last:border-0 border-gray-100 dark:border-gray-800 transition-colors"
+                                      >
+                                          <p className="text-sm font-bold text-gray-900 dark:text-white">{vendor.name}</p>
+                                          <div className="flex gap-2 text-xs text-gray-500 dark:text-gray-400">
+                                            {vendor.phone && <span>{vendor.phone}</span>}
+                                            {vendor.gstNumber && <span>• GST: {vendor.gstNumber}</span>}
+                                          </div>
+                                      </div>
+                                  ))
+                              ) : (
+                                  <div className="px-4 py-3 text-sm text-gray-500 text-center">No vendors found</div>
+                              )}
+
+                              {vendors.length > 0 && vendors.filter(v => v.name.toLowerCase().includes(formData.vendor.toLowerCase())).length === 0 && (
+                                   <div className="px-4 py-3 text-sm text-gray-500 italic text-center border-t border-gray-100 dark:border-gray-800">
+                                       No matching vendors. A new one will be created.
+                                   </div>
+                              )}
+                          </div>
+                      )}
+
                       {errors.vendor && <p className="text-red-500 text-xs mt-1">{errors.vendor}</p>}
                   </label>
                   <div className="grid grid-cols-2 gap-4">
@@ -277,7 +357,13 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
                       ) : (
                         <div className="border border-gray-300 dark:border-gray-700 rounded-lg p-4 flex items-center gap-4">
                           {filePreview ? (
-                            <img src={filePreview} alt="Preview" className="w-16 h-16 object-cover rounded-lg" />
+                            <Image
+                              src={filePreview}
+                              alt="Preview"
+                              className="object-cover rounded-lg"
+                              width={64}
+                              height={64}
+                            />
                           ) : (
                             <div className="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-lg flex items-center justify-center">
                               <span className="material-symbols-outlined text-gray-400 text-2xl">description</span>

@@ -11,6 +11,9 @@ export default function AccountantHeader() {
     const getPageTitle = (path: string) => {
         if (path.includes('/dashboard')) return 'Dashboard';
         if (path.includes('/expenses')) return 'Expense Booking';
+        if (path.includes('/expense-types')) return 'Expense Types';
+        if (path.includes('/vendors')) return 'Vendors';
+        if (path.includes('/history')) return 'History';
         return 'Accountant Portal';
     };
 
@@ -26,11 +29,11 @@ export default function AccountantHeader() {
                 ) : (
                     <div className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
                          <Image
-                           src="/images/gemini_logo_transparent.png"
+                           src="/images/AOL logo.png"
                            alt="VDS ERP Logo"
                            width={24}
                            height={24}
-                           className="object-contain"
+                           className="object-contain w-6 h-6"
                          />
                     </div>
                 )}
@@ -38,7 +41,7 @@ export default function AccountantHeader() {
                 {pathname !== '/accountant/dashboard' && (
                      <div className="bg-primary/10 rounded-full p-1 border border-primary/20">
                          <Image
-                           src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNI47XRhT5A-zXWPUa6t3PvxqCPFbmVV4aESMvjpOPLq5iO1NkF9zboeSBXtkEAJrHJhJVJ_9iiyOm1khOg65wRiR63i_-UlZutgXI96DcTN2YzPh65MB_vyK2a_Kl1HEQjKfxpEu08a1X63Wz2Vi6xHDlIJIhwSguF0NzrtyTBkFOiSGLbvCHPpU4pc6UIQfKwkp6awpWdseZbPioduEzoEtoLcemqGwNhJ7EMIMgJ-FdQcpnE49ONXOcYKWeq-pngHd1JX_qEOk9"
+                           src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                            alt="User Avatar"
                            width={32}
                            height={32}

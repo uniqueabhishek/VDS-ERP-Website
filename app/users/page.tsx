@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const users = [
   {
@@ -20,7 +21,7 @@ const users = [
     name: 'Sarah Jenkins',
     role: 'Accountant',
     empId: '#VDS-402',
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCwJmgjWkatYo7kWKUQ-_iP0l4y4KqgV3wPFIq2bI0cO2o2kHQEbmnDV0svhBTl0kZG8FuYWWH-ljV3vzYuw-m2AoQiNFh_ZRTX8GVn7wwB1UN8DqXVRZEW3MaOFYi8QJaW7bz2IR6z37bdO9-IjtjOWaqOhvLTlAmfdovZbuVkdmTjMogIhgzDg4w4Tya16RFNikHUcvpVWGZdPTCogrGY4q0e4EYXfghOLvI65fmsWWNUz0HeCEuOZ32BL3fFN8N2GQU_6A1kp5h5',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     status: 'offline',
     tags: ['Payroll', 'Audit'],
     badgeClass: 'bg-blue-500/10 text-blue-500',
@@ -60,10 +61,12 @@ export default function UserManagementPage() {
       <aside className="hidden md:flex w-64 flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-background-dark sticky top-0 h-screen overflow-y-auto">
         <div className="h-16 flex items-center gap-3 px-6 border-b border-gray-200 dark:border-gray-800">
             <div className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
-                <img
-                  src="/images/gemini_logo_transparent.png"
+                <Image
+                  src="/images/AOL logo.png"
                   alt="VDS ERP Logo"
-                  className="size-6 object-contain"
+                  className="object-contain w-6 h-6"
+                  width={24}
+                  height={24}
                 />
             </div>
             <span className="text-lg font-bold tracking-tight">VDS ERP</span>
@@ -195,7 +198,13 @@ export default function UserManagementPage() {
                         <div key={user.id} className="flex flex-col rounded-xl border border-gray-200 dark:border-border-dark bg-white dark:bg-card-dark overflow-hidden shadow-sm hover:shadow-md transition-shadow group relative">
                           <div className="p-5 flex items-start gap-4">
                             <div className="relative shrink-0">
-                              <img className="w-16 h-16 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm" alt="Portrait" src={user.image} />
+                              <Image
+                                className="rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm"
+                                alt="Portrait"
+                                src={user.image}
+                                width={64}
+                                height={64}
+                              />
                               <span className={`absolute bottom-0 right-0 w-3.5 h-3.5 border-2 border-white dark:border-card-dark rounded-full ${user.status === 'online' ? 'bg-green-500' : user.status === 'busy' ? 'bg-amber-500' : 'bg-gray-400'}`}></span>
                             </div>
                             <div className="flex-1 min-w-0 pt-1">
@@ -250,7 +259,13 @@ export default function UserManagementPage() {
                                         <td className="p-4">
                                             <div className="flex items-center gap-3">
                                                  <div className="relative shrink-0">
-                                                    <img className="w-10 h-10 rounded-full object-cover" alt="" src={user.image} />
+                                                    <Image
+                                                      className="rounded-full object-cover"
+                                                      alt=""
+                                                      src={user.image}
+                                                      width={40}
+                                                      height={40}
+                                                    />
                                                     <span className={`absolute bottom-0 right-0 w-2.5 h-2.5 border-2 border-white dark:border-card-dark rounded-full ${user.status === 'online' ? 'bg-green-500' : user.status === 'busy' ? 'bg-amber-500' : 'bg-gray-400'}`}></span>
                                                 </div>
                                                 <div>

@@ -15,11 +15,11 @@ export default function AccountantSidebar() {
       <div className="h-16 flex items-center gap-3 px-6 border-b border-gray-200 dark:border-gray-800">
           <div className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
               <Image
-                src="/images/gemini_logo_transparent.png"
+                src="/images/AOL logo.png"
                 alt="VDS ERP Logo"
                 width={24}
                 height={24}
-                className="object-contain"
+                className="object-contain w-6 h-6"
                 priority
               />
           </div>
@@ -46,6 +46,10 @@ export default function AccountantSidebar() {
           <Link href="/accountant/history" className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive('/accountant/history') ? 'text-primary bg-primary/10' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50'}`}>
               <span className="material-symbols-outlined" style={isActive('/accountant/history') ? { fontVariationSettings: "'FILL' 1" } : {}}>history</span>
               <span className={`text-sm ${isActive('/accountant/history') ? 'font-semibold' : 'font-medium'}`}>History</span>
+          </Link>
+          <Link href="/accountant/expense-types" className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive('/accountant/expense-types') ? 'text-primary bg-primary/10' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50'}`}>
+              <span className="material-symbols-outlined" style={isActive('/accountant/expense-types') ? { fontVariationSettings: "'FILL' 1" } : {}}>category</span>
+              <span className={`text-sm ${isActive('/accountant/expense-types') ? 'font-semibold' : 'font-medium'}`}>Expense Types</span>
           </Link>
           <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg transition-colors">
               <span className="material-symbols-outlined">settings</span>
