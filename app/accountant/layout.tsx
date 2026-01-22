@@ -4,7 +4,6 @@ import React from 'react';
 import AccountantSidebar from '@/app/components/accountant/AccountantSidebar';
 import AccountantHeader from '@/app/components/accountant/AccountantHeader';
 import { ToastProvider } from '@/app/components/ui/Toast';
-import { ErrorBoundary } from '@/app/components/ui/ErrorBoundary';
 
 export default function AccountantLayout({
   children,
@@ -12,9 +11,8 @@ export default function AccountantLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ErrorBoundary>
-      <ToastProvider>
-        <div className="bg-background-light dark:bg-background-dark font-display text-[#141515] dark:text-white min-h-screen flex">
+    <ToastProvider>
+      <div className="bg-background-light dark:bg-background-dark font-display text-[#141515] dark:text-white min-h-screen flex">
         {/* Sidebar */}
         <AccountantSidebar />
 
@@ -47,6 +45,5 @@ export default function AccountantLayout({
         </div>
       </div>
     </ToastProvider>
-    </ErrorBoundary>
   );
 }

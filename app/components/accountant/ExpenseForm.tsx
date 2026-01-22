@@ -16,7 +16,6 @@ interface ExpenseFormData {
   date: string;
   notes: string;
   vendor: string;
-  vendorId: string | null;
   paymentMethod: string;
   billNumber: string;
 }
@@ -38,7 +37,6 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
     date: new Date().toISOString().split('T')[0],
     notes: '',
     vendor: '',
-    vendorId: null,
     paymentMethod: '',
     billNumber: '',
   });
@@ -138,75 +136,29 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
 
     setIsSubmitting(true);
 
-    try {
-      let receiptPath: string | null = null;
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-      // Upload file if present
-      if (file) {
-        const uploadFormData = new FormData();
-        uploadFormData.append('file', file);
-
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadFormData,
-        });
-
-        if (uploadRes.ok) {
-          const uploadData = await uploadRes.json();
-          receiptPath = uploadData.path;
-        } else {
-          console.error('Failed to upload receipt');
-        }
-      }
-
-      // Submit expense to API
-      const expenseData = {
-        expenseType: formData.expenseType,
-        amount: formData.amount,
-        expenseDate: formData.date,
-        vendorName: formData.vendor,
-        vendorId: formData.vendorId,
-        paymentMethod: formData.paymentMethod,
-        billNumber: formData.billNumber,
-        description: formData.notes,
-        receiptPath: receiptPath,
-      };
-
-      const res = await fetch('/api/expenses', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(expenseData),
-      });
-
-      if (!res.ok) {
-        throw new Error('Failed to create expense');
-      }
-
-      if (onSubmit) {
-        onSubmit(formData, file);
-      }
-
-      if (addAnother) {
-        // Reset form but keep date
-        setFormData({
-          expenseType: '',
-          amount: '',
-          date: formData.date,
-          notes: '',
-          vendor: '',
-          vendorId: null,
-          paymentMethod: 'Cash',
-          billNumber: '',
-        });
-        setFile(null);
-        setFilePreview(null);
-      }
-    } catch (error) {
-      console.error('Error submitting expense:', error);
-      alert('Failed to submit expense. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+    if (onSubmit) {
+      onSubmit(formData, file);
     }
+
+    if (addAnother) {
+      // Reset form but keep date
+      setFormData({
+        expenseType: '',
+        amount: '',
+        date: formData.date,
+        notes: '',
+        vendor: '',
+        paymentMethod: 'Cash',
+        billNumber: '',
+      });
+      setFile(null);
+      setFilePreview(null);
+    }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -331,7 +283,7 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
                                       <div
                                           key={vendor.id}
                                           onMouseDown={() => {
-                                              setFormData(prev => ({ ...prev, vendor: vendor.name, vendorId: vendor.id }));
+                                              handleInputChange('vendor', vendor.name);
                                               setShowSuggestions(false);
                                           }}
                                           className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-white/5 cursor-pointer border-b last:border-0 border-gray-100 dark:border-gray-800 transition-colors"

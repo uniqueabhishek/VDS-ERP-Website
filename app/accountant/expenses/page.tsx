@@ -126,7 +126,7 @@ export default function AccountantExpenseBooking() {
         </div>
 
         {/* Scrollable Content */}
-        <main className="flex-1 overflow-y-auto pb-20 md:pb-8 p-4 md:p-8">
+        <main className="flex-1 overflow-y-auto pb-32 md:pb-8 p-4 md:p-8">
             <div className="max-w-5xl mx-auto w-full space-y-6">
                 {activeTab === 'book' ? (
                   <ExpenseForm onSubmit={handleFormSubmit} onCancel={handleCancel} />
