@@ -167,9 +167,10 @@ export default function FixedAssetsPage() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="flex-1 p-4 md:p-8">
+      <div className="max-w-6xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Fixed Assets</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">Manage your organization&apos;s fixed assets</p>
@@ -438,6 +439,7 @@ export default function FixedAssetsPage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
