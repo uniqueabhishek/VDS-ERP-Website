@@ -114,7 +114,7 @@ export default function ExpenseTypesPage() {
                             <input
                                 value={formData.name}
                                 onChange={(e) => setFormData({...formData, name: e.target.value})}
-                                className="w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-transparent text-sm p-2.5 focus:ring-primary focus:border-primary"
+                                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-transparent text-gray-900 dark:text-white text-sm p-2.5 focus:ring-2 focus:ring-primary focus:border-primary"
                                 placeholder="e.g. Utility"
                                 required
                             />
@@ -124,7 +124,7 @@ export default function ExpenseTypesPage() {
                             <textarea
                                 value={formData.description}
                                 onChange={(e) => setFormData({...formData, description: e.target.value})}
-                                className="w-full rounded-lg border-gray-300 dark:border-gray-600 bg-white dark:bg-transparent text-sm p-2.5 focus:ring-primary focus:border-primary resize-none h-24"
+                                className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-transparent text-gray-900 dark:text-white text-sm p-2.5 focus:ring-2 focus:ring-primary focus:border-primary resize-none h-24"
                                 placeholder="Optional description..."
                             />
                         </div>

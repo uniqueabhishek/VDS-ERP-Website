@@ -1,6 +1,20 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-primary: #607AFB;
+  --color-background-light: #f5f6f8;
+  --color-background-dark: #0f1323;
+  --color-card-dark: #1b1d27;
+  --color-border-dark: #3a3e55;
+
+  /* Font Family */
+  --font-display: "Manrope", sans-serif;
+
+  /* Border Radius */
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -19,6 +33,35 @@
 body {
   font-family: 'Manrope', sans-serif;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Enhanced scrollbar for dark mode */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a3e55;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a4e65;
+}
+
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-thumb {
+    background: #2a2e45;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3a3e55;
+  }
 }
 
 .ios-toggle:checked + .ios-toggle-label {
