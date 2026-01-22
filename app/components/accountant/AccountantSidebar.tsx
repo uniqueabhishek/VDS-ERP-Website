@@ -51,6 +51,10 @@ export default function AccountantSidebar() {
               <span className="material-symbols-outlined" style={isActive('/accountant/expense-types') ? { fontVariationSettings: "'FILL' 1" } : {}}>category</span>
               <span className={`text-sm ${isActive('/accountant/expense-types') ? 'font-semibold' : 'font-medium'}`}>Expense Types</span>
           </Link>
+          <Link href="/accountant/fixed-assets" className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive('/accountant/fixed-assets') ? 'text-primary bg-primary/10' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50'}`}>
+              <span className="material-symbols-outlined" style={isActive('/accountant/fixed-assets') ? { fontVariationSettings: "'FILL' 1" } : {}}>inventory_2</span>
+              <span className={`text-sm ${isActive('/accountant/fixed-assets') ? 'font-semibold' : 'font-medium'}`}>Fixed Assets</span>
+          </Link>
           <a href="#" className="flex items-center gap-3 px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg transition-colors">
               <span className="material-symbols-outlined">settings</span>
               <span className="text-sm font-medium">Settings</span>
