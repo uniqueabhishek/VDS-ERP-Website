@@ -18,8 +18,9 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     });
 
     return NextResponse.json(expenseType);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to update expense type' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Error updating expense type:', error);
+    return NextResponse.json({ error: 'Failed to update expense type', details: error?.message }, { status: 500 });
   }
 }
 
@@ -30,7 +31,8 @@ export async function DELETE(request: Request, { params }: { params: { id: strin
       where: { id: id },
     });
     return NextResponse.json({ message: 'Expense type deleted' });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete expense type' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Error deleting expense type:', error);
+    return NextResponse.json({ error: 'Failed to delete expense type', details: error?.message }, { status: 500 });
   }
 }

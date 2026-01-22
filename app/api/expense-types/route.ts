@@ -9,8 +9,9 @@ export async function GET() {
       orderBy: { name: 'asc' },
     });
     return NextResponse.json(expenseTypes);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch expense types' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Error fetching expense types:', error);
+    return NextResponse.json({ error: 'Failed to fetch expense types', details: error?.message }, { status: 500 });
   }
 }
 
