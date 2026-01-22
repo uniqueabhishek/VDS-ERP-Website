@@ -24,7 +24,7 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
     date: new Date().toISOString().split('T')[0],
     notes: '',
     vendor: '',
-    paymentMethod: 'Cash',
+    paymentMethod: '',
     billNumber: '',
   });
 
@@ -237,6 +237,7 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
                         onChange={(e) => handleInputChange('paymentMethod', e.target.value)}
                         className="select-chevron form-input w-full rounded-lg text-[#141515] dark:text-white border border-[#dfe2e1] dark:border-white/10 bg-white dark:bg-transparent h-12 md:h-14 p-[15px] text-sm transition-colors hover:border-gray-400 dark:hover:border-white/20 focus:ring-2 focus:ring-primary/20"
                       >
+                          <option value="" className="text-gray-900 dark:text-white dark:bg-zinc-800">Select Payment Method</option>
                           <option className="text-gray-900 dark:text-white dark:bg-zinc-800">Cash</option>
                           <option className="text-gray-900 dark:text-white dark:bg-zinc-800">UPI</option>
                           <option className="text-gray-900 dark:text-white dark:bg-zinc-800">Bank Transfer</option>

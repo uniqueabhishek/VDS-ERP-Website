@@ -39,6 +39,10 @@ export default function AccountantSidebar() {
               <span className="material-symbols-outlined" style={isActive('/accountant/expenses') ? { fontVariationSettings: "'FILL' 1" } : {}}>receipt_long</span>
               <span className={`text-sm ${isActive('/accountant/expenses') ? 'font-semibold' : 'font-medium'}`}>Vouchers</span>
           </Link>
+          <Link href="/accountant/vendors" className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive('/accountant/vendors') ? 'text-primary bg-primary/10' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50'}`}>
+              <span className="material-symbols-outlined" style={isActive('/accountant/vendors') ? { fontVariationSettings: "'FILL' 1" } : {}}>group</span>
+              <span className={`text-sm ${isActive('/accountant/vendors') ? 'font-semibold' : 'font-medium'}`}>Vendors</span>
+          </Link>
           <Link href="/accountant/history" className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${isActive('/accountant/history') ? 'text-primary bg-primary/10' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50'}`}>
               <span className="material-symbols-outlined" style={isActive('/accountant/history') ? { fontVariationSettings: "'FILL' 1" } : {}}>history</span>
               <span className={`text-sm ${isActive('/accountant/history') ? 'font-semibold' : 'font-medium'}`}>History</span>

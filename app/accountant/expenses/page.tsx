@@ -55,10 +55,34 @@ export default function AccountantExpenseBooking() {
   const [activeTab, setActiveTab] = useState('book'); // 'book' or 'history'
   const { addToast } = useToast();
 
-  const handleFormSubmit = (data: any, file: File | null) => {
-    // Here you would normally send to API
-    console.log('Expense submitted:', data, file);
-    addToast('Expense submitted successfully!', 'success');
+  const handleFormSubmit = async (data: any, file: File | null) => {
+    try {
+      const response = await fetch('/api/expenses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          expenseType: data.expenseType,
+          amount: data.amount,
+          expenseDate: data.date,
+          vendorName: data.vendor,
+          paymentMethod: data.paymentMethod,
+          billNumber: data.billNumber,
+          description: data.notes,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create expense');
+      }
+
+      addToast('Expense submitted successfully!', 'success');
+      setActiveTab('history');
+    } catch (error) {
+      console.error('Error submitting expense:', error);
+      addToast('Failed to submit expense. Please try again.', 'error');
+    }
   };
 
   const handleCancel = () => {

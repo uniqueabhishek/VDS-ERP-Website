@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  username     String    @unique
+  email        String    @unique
+  passwordHash String
+  fullName     String
+  role         String    @default("accountant")
+  status       String    @default("active")
+  createdAt    DateTime  @default(now())
+  lastLogin    DateTime?
+
+  // Relations
+  expenses     Expense[]
+  fixedAssets  FixedAsset[]
+  vendors      Vendor[]
+
+  @@map("users")
+}
+
+model Expense {
+  id                String   @id @default(cuid())
+  expenseType       String
+  amount            Float
+  expenseDate       DateTime
+  vendorName        String
+  paymentMethod     String
+  billNumber        String?
+  description       String?
+  receiptPath       String?
+
+  // Relations
+  createdBy         String
+  user              User     @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+
+  vendorId          String?
+  vendor            Vendor?  @relation(fields: [vendorId], references: [id], onDelete: SetNull)
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("expenses")
+}
+
+model FixedAsset {
+  id             String    @id @default(cuid())
+  assetName      String
+  description    String?
+  location       String
+  purchaseDate   DateTime
+  purchaseValue  Float
+  currentValue   Float?
+  status         String    @default("active")
+  notes          String?
+
+  // Relations
+  createdBy      String
+  user           User      @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@map("fixed_assets")
+}
+
+model Vendor {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  contactPerson String?
+  phone         String?
+  email         String?
+  address       String?
+  gstNumber     String?
+  notes         String?
+
+  // Relations
+  createdBy     String
+  user          User     @relation(fields: [createdBy], references: [id], onDelete: Cascade)
+  expenses      Expense[]
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("vendors")
+}
+
