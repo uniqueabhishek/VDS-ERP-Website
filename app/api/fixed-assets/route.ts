@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
+import { Prisma } from '@prisma/client'
 
 // GET - List all fixed assets
 export async function GET(req: NextRequest) {
@@ -16,7 +17,7 @@ export async function GET(req: NextRequest) {
     const status = searchParams.get('status')
     const location = searchParams.get('location')
 
-    const where: any = {}
+    const where: Prisma.FixedAssetWhereInput = {}
 
     if (status) {
       where.status = status
@@ -78,7 +79,7 @@ export async function POST(req: NextRequest) {
         currentValue: body.currentValue ? parseFloat(body.currentValue) : null,
         status: body.status || 'active',
         notes: body.notes || null,
-        createdBy: (session.user as any).id,
+        createdBy: session.user.id,
       },
       include: {
         user: {

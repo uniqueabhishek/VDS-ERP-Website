@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
+import type { ExpenseWhereInput } from '@/types/api'
+import { Prisma } from '@prisma/client'
+import { createExpenseSchema, validateData } from '@/lib/validations'
 
 // GET - List all expenses with optional filters
 export async function GET(req: NextRequest) {
@@ -17,7 +20,7 @@ export async function GET(req: NextRequest) {
     const endDate = searchParams.get('endDate')
     const type = searchParams.get('type')
 
-    const where: any = {}
+    const where: Prisma.ExpenseWhereInput = {}
 
     if (startDate && endDate) {
       where.expenseDate = {
@@ -64,26 +67,19 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json()
 
-    // Validate required fields
-    if (!body.expenseType || !body.amount || !body.expenseDate || !body.vendorName || !body.paymentMethod) {
+    // Validate request body
+    const validation = validateData(createExpenseSchema, body)
+    if (!validation.success) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Validation failed', details: validation.errors },
         { status: 400 }
       )
     }
 
     const expense = await prisma.expense.create({
       data: {
-        expenseType: body.expenseType,
-        amount: parseFloat(body.amount),
-        expenseDate: new Date(body.expenseDate),
-        vendorName: body.vendorName,
-        paymentMethod: body.paymentMethod,
-        billNumber: body.billNumber || null,
-        description: body.description || null,
-        receiptPath: body.receiptPath || null,
-        vendorId: body.vendorId || null,
-        createdBy: (session.user as any).id,
+        ...validation.data,
+        createdBy: session.user.id,
       },
       include: {
         user: {

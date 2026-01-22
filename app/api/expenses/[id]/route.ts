@@ -6,7 +6,7 @@ import { prisma } from '@/lib/db'
 // GET - Get single expense by ID
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -16,7 +16,7 @@ export async function GET(
     }
 
     const expense = await prisma.expense.findUnique({
-      where: { id: params.id },
+      where: { id: (await params).id },
       include: {
         user: {
           select: {
@@ -44,7 +44,7 @@ export async function GET(
 // PUT - Update expense
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -56,7 +56,7 @@ export async function PUT(
     const body = await req.json()
 
     const expense = await prisma.expense.update({
-      where: { id: params.id },
+      where: { id: (await params).id },
       data: {
         expenseType: body.expenseType,
         amount: parseFloat(body.amount),
@@ -90,7 +90,7 @@ export async function PUT(
 // DELETE - Delete expense
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -100,7 +100,7 @@ export async function DELETE(
     }
 
     await prisma.expense.delete({
-      where: { id: params.id },
+      where: { id: (await params).id },
     })
 
     return NextResponse.json({ message: 'Expense deleted successfully' })

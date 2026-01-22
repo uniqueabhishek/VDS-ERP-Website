@@ -6,7 +6,7 @@ import { prisma } from '@/lib/db'
 // GET - Get single vendor by ID
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // DEVELOPMENT: Auth check disabled
@@ -16,7 +16,7 @@ export async function GET(
     // }
 
     const vendor = await prisma.vendor.findUnique({
-      where: { id: params.id },
+      where: { id: (await params).id },
       include: {
         _count: {
           select: { expenses: true }
@@ -41,7 +41,7 @@ export async function GET(
 // PUT - Update vendor
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // DEVELOPMENT: Auth check disabled
@@ -60,7 +60,7 @@ export async function PUT(
     }
 
     const vendor = await prisma.vendor.update({
-      where: { id: params.id },
+      where: { id: (await params).id },
       data: {
         name: body.name.trim(),
         contactPerson: body.contactPerson?.trim() || null,
@@ -73,21 +73,23 @@ export async function PUT(
     })
 
     return NextResponse.json(vendor)
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating vendor:', error)
 
-    if (error.code === 'P2002') {
-      return NextResponse.json(
-        { error: 'A vendor with this name already exists' },
-        { status: 409 }
-      )
-    }
+    if (error && typeof error === 'object' && 'code' in error) {
+      if (error.code === 'P2002') {
+        return NextResponse.json(
+          { error: 'A vendor with this name already exists' },
+          { status: 409 }
+        )
+      }
 
-    if (error.code === 'P2025') {
-      return NextResponse.json(
-        { error: 'Vendor not found' },
-        { status: 404 }
-      )
+      if (error.code === 'P2025') {
+        return NextResponse.json(
+          { error: 'Vendor not found' },
+          { status: 404 }
+        )
+      }
     }
 
     return NextResponse.json(
@@ -100,7 +102,7 @@ export async function PUT(
 // DELETE - Delete vendor
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // DEVELOPMENT: Auth check disabled
@@ -111,7 +113,7 @@ export async function DELETE(
 
     // Check if vendor has expenses
     const vendor = await prisma.vendor.findUnique({
-      where: { id: params.id },
+      where: { id: (await params).id },
       include: {
         _count: {
           select: { expenses: true }
@@ -131,14 +133,14 @@ export async function DELETE(
     }
 
     await prisma.vendor.delete({
-      where: { id: params.id },
+      where: { id: (await params).id },
     })
 
     return NextResponse.json({ message: 'Vendor deleted successfully' })
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error deleting vendor:', error)
 
-    if (error.code === 'P2025') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
       return NextResponse.json(
         { error: 'Vendor not found' },
         { status: 404 }

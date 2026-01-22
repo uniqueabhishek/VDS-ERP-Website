@@ -67,11 +67,11 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json(vendor, { status: 201 })
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error creating vendor:', error)
 
     // Handle unique constraint violation
-    if (error.code === 'P2002') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
       return NextResponse.json(
         { error: 'A vendor with this name already exists' },
         { status: 409 }

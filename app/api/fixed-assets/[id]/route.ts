@@ -6,7 +6,7 @@ import { prisma } from '@/lib/db'
 // GET - Get single fixed asset
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -16,7 +16,7 @@ export async function GET(
     }
 
     const asset = await prisma.fixedAsset.findUnique({
-      where: { id: params.id },
+      where: { id: (await params).id },
       include: {
         user: {
           select: {
@@ -44,7 +44,7 @@ export async function GET(
 // PUT - Update fixed asset
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -56,7 +56,7 @@ export async function PUT(
     const body = await req.json()
 
     const asset = await prisma.fixedAsset.update({
-      where: { id: params.id },
+      where: { id: (await params).id },
       data: {
         assetName: body.assetName,
         description: body.description,
@@ -78,9 +78,9 @@ export async function PUT(
     })
 
     return NextResponse.json(asset)
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error updating fixed asset:', error)
-    if (error.code === 'P2025') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
       return NextResponse.json({ error: 'Asset not found' }, { status: 404 })
     }
     return NextResponse.json(
@@ -93,7 +93,7 @@ export async function PUT(
 // DELETE - Delete fixed asset
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -103,13 +103,13 @@ export async function DELETE(
     }
 
     await prisma.fixedAsset.delete({
-      where: { id: params.id },
+      where: { id: (await params).id },
     })
 
     return NextResponse.json({ message: 'Asset deleted successfully' })
-  } catch (error: any) {
+  } catch (error) {
     console.error('Error deleting fixed asset:', error)
-    if (error.code === 'P2025') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2025') {
       return NextResponse.json({ error: 'Asset not found' }, { status: 404 })
     }
     return NextResponse.json(
