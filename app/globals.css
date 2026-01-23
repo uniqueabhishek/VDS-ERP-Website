@@ -1,8 +1,5 @@
 @import "tailwindcss";
 
-/* Configure dark mode to use class-based strategy */
-@variant dark (&:is(.dark *));
-
 @theme {
   /* Colors */
   --color-primary: #607AFB;
@@ -17,6 +14,9 @@
   /* Border Radius */
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
+
+  /* Configure dark mode variant */
+  --variant-dark: &:is(.dark *);
 }
 
 :root {

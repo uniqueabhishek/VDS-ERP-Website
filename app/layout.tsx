@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
-// Self-hosted Material Symbols icons
-import "material-symbols";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -22,6 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        />
+      </head>
       <body className={manrope.className} suppressHydrationWarning>{children}</body>
     </html>
   );
