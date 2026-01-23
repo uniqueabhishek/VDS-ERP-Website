@@ -11,7 +11,18 @@
       "Bash(git commit:*)",
       "Bash(npm run dev:*)",
       "Bash(git checkout:*)",
-      "Bash(git ls-tree:*)"
+      "Bash(git ls-tree:*)",
+      "Bash(rd /s /q \".next\")",
+      "Bash(del \"tailwind.config.ts\")",
+      "Bash(curl:*)",
+      "Bash(bash)",
+      "Bash(git for-each-ref:*)",
+      "Bash(xargs:*)",
+      "Bash(git update-ref:*)"
     ]
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
   }
 }
