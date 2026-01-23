@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Configure dark mode to use class-based strategy */
+@variant dark (&:is(.dark *));
+
 @theme {
   /* Colors */
   --color-primary: #607AFB;

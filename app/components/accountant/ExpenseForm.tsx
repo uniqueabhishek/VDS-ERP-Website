@@ -49,6 +49,7 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
   const [filePreview, setFilePreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const dateInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
       const fetchData = async () => {
@@ -218,12 +219,18 @@ export default function ExpenseForm({ onSubmit, onCancel }: ExpenseFormProps) {
                       <p className="text-[#141515] dark:text-white/70 text-sm font-semibold pb-2 group-focus-within:text-primary transition-colors">
                         Expense Date <span className="text-red-500">*</span>
                       </p>
-                      <input
-                        value={formData.date}
-                        onChange={(e) => handleInputChange('date', e.target.value)}
-                        className={`form-input w-full rounded-lg text-[#141515] dark:text-white focus:ring-2 focus:ring-primary/20 border ${errors.date ? 'border-red-500' : 'border-[#dfe2e1] dark:border-white/10'} bg-white dark:bg-transparent h-12 md:h-14 p-[15px] text-sm md:text-base font-medium transition-colors hover:border-gray-400 dark:hover:border-white/20`}
-                        type="date"
-                      />
+                      <div
+                        onClick={() => dateInputRef.current?.showPicker?.()}
+                        className="cursor-pointer"
+                      >
+                        <input
+                          ref={dateInputRef}
+                          value={formData.date}
+                          onChange={(e) => handleInputChange('date', e.target.value)}
+                          className={`form-input w-full rounded-lg text-[#141515] dark:text-white focus:ring-2 focus:ring-primary/20 border ${errors.date ? 'border-red-500' : 'border-[#dfe2e1] dark:border-white/10'} bg-white dark:bg-transparent h-12 md:h-14 p-[15px] text-sm md:text-base font-medium transition-colors hover:border-gray-400 dark:hover:border-white/20 cursor-pointer`}
+                          type="date"
+                        />
+                      </div>
                       {errors.date && <p className="text-red-500 text-xs mt-1">{errors.date}</p>}
                       </label>
                   </div>
