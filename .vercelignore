@@ -1,0 +1,9 @@
+# Keep SQLite database out of deployments (will be generated fresh)
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Local env files
+.env.local
+.env*.local
