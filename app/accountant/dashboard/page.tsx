@@ -74,24 +74,24 @@ export default function AccountantDashboard() {
               </Link>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <button className="group flex flex-col items-start gap-3 p-5 rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-lg shadow-primary/25 text-white active:scale-[0.98] transition-all hover:shadow-xl hover:shadow-primary/30 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                <div className="bg-white/20 p-2.5 rounded-lg group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined text-white">add_card</span>
+              <button className="group flex flex-col items-start gap-3 p-5 rounded-xl bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/50 shadow-sm active:scale-[0.98] transition-all hover:shadow-lg hover:border-primary/30 dark:hover:border-primary/30">
+                <div className="bg-primary/10 dark:bg-primary/20 p-2.5 rounded-lg text-primary group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined">add_card</span>
                 </div>
                 <div>
-                  <p className="text-sm font-bold leading-tight text-left">Add New</p>
-                  <p className="text-white/70 text-xs">Income entry</p>
+                  <p className="text-sm font-bold leading-tight text-gray-900 dark:text-white text-left">Add New</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">Income entry</p>
                 </div>
               </button>
 
-              <Link href="/accountant/expenses" className="group flex flex-col items-start gap-3 p-5 rounded-xl bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/50 shadow-sm active:scale-[0.98] transition-all hover:shadow-lg hover:border-primary/30 dark:hover:border-primary/30">
-                <div className="bg-primary/10 dark:bg-primary/20 p-2.5 rounded-lg text-primary group-hover:scale-110 transition-transform">
-                  <span className="material-symbols-outlined">payments</span>
+              <Link href="/accountant/expenses" className="group flex flex-col items-start gap-3 p-5 rounded-xl bg-gradient-to-br from-primary to-primary/80 shadow-lg shadow-primary/25 text-white active:scale-[0.98] transition-all hover:shadow-xl hover:shadow-primary/30 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+                <div className="bg-white/20 p-2.5 rounded-lg group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined text-white">payments</span>
                 </div>
                 <div>
-                  <p className="text-sm font-bold leading-tight text-gray-900 dark:text-white text-left">Record</p>
-                  <p className="text-gray-500 dark:text-gray-400 text-xs">New expense</p>
+                  <p className="text-sm font-bold leading-tight text-left">Record</p>
+                  <p className="text-white/70 text-xs">New expense</p>
                 </div>
               </Link>
 
