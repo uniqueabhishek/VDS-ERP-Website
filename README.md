@@ -182,12 +182,7 @@ npm run dev:turbo
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 6. Log In
 
-Use the default credentials:
-
-- **Email:** admin@vds.com
-- **Password:** admin123
 
 ⚠️ **Important:** Change the default password after first login in production!
 
